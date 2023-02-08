@@ -1,0 +1,82 @@
+<html lang="en">
+  <head>
+  
+	<style type="text/css">
+      h1 {color:blue; text-align:center}
+      h2 {color:#134f5c; font-size:20px; font-weight:bold}
+      p  {color:#45818e; font-size:14px}
+	</style>
+    	
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>UMBC Campus</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.25/"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <script>
+      require([
+      "esri/Map",
+      "esri/views/MapView"
+    ], function(
+      Map,
+      MapView
+    ) {
+      const map = new Map({
+    	  basemap: "hybrid"
+      });
+
+      // center the view over 48 states
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-76.7115, 39.2532],
+        zoom: 15
+      });
+      
+    });
+    </script>
+  </head>
+  <body>
+
+  <h1>UMBC Campus</h1>
+  <!-- I wasn't sure if you preferred the UMBC logo after the paragraph, but I decided to place it before because it looked better to me. -->
+  <center><a href="https://umbc.edu/" target="_blank"><img src="https://styleguide.umbc.edu/files/2019/01/UMBC-vertical-logo-RGB.png"
+  	style="width:10%" style="height:10%"
+  	></a>
+
+  <br>
+  <p style="color:gray; font-size: 16px">1000 Hilltop Circle<br>
+  Baltimore, MD 21250</p>
+  <br></center>
+
+  <h2>About UMBC</h2>
+
+  <p>The University of Maryland, Baltimore County (UMBC) is located in Catonsville, Maryland.
+  It is part of the University System of Maryland, which includes 12 institutions of higher education.
+  In August 2022, Dr. Valerie Sheares Ashby was appointed as UMBC's president.
+  Dr. Ashby is UMBC's first female president, replacing Dr. Freeman A. Hrabowski III after thirty years of service.
+  </p>
+  
+  <h2>A Commitment to Sustainability</h2>
+  
+  <p>UMBC's Office of Sustainability was established in 2011.
+  The Office of Sustainability reports out information on the University's greenhouse gas emissions, sustainabiity programs, and best practices.
+  You can find out more about the office 
+  <a href="https://sustainability.umbc.edu/home/learn-more-new/about/" target="_blank">here.
+  </a></p>
+
+
+  <div id="viewDiv"></div>
+  
+  </body>
+</html>
