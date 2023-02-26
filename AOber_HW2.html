@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>AOber HW #2</title>
+<script type="text/javascript">
+var thisLeft=0;
+var thisTop=0;
+var maxRight=window.innerWidth;
+var maxBottom=window.innerHeight;
+var speed=10
+var moveID=0;
+function moveText(){
+   /*move text to left*/
+   var Moving= document.getElementById('myDiv');
+   thisLeft +=speed;
+   Moving.style.left=thisLeft + 'px';
+   /*If text reaches window's width minus the width of the text
+   (maxRight-Moving.offsetWidth) or greater,
+   change text color to blue,
+   increase text size,
+   change text to "moving down"
+   keep text at window's inner width minus the width of the text,
+   and begin moving text 10 pixels at a time down from the top.
+   */
+   
+   if (thisLeft>=maxRight-Moving.offsetWidth){
+	   myDiv.style.color='blue';
+	   myDiv.style.fontSize='24px';
+	   myDiv.innerHTML='moving down';
+	   thisLeft=maxRight-Moving.offsetWidth;
+       thisTop +=speed;
+       Moving.style.top=thisTop + 'px';
+   
+   /*If text reaches window's height minus the height of the text
+   (maxBottom-Moving.offsetHeight) or greater,
+   change text color to red,
+   increase text size,
+   change text to "moving top left"
+   and prompt new function "moveDiag"
+   */
+   
+		if (thisTop>=maxBottom-Moving.offsetHeight) {
+			myDiv.style.color='red';
+			myDiv.style.fontSize='30px';
+			myDiv.innerHTML='moving top left';
+			moveDiag(Moving);
+
+}
+}
+		 	
+function moveDiag(){
+	/*tried to create a multiplier that would help keep the text
+	moving more evenly diagonally if/when the window size changed.
+	Once this function is called, the text moves diagonally to the top left corner,
+	the horizontal speed is proportional to the window width and height while
+	the vertical speed is constant at 10.
+	Once the text reaches 0,0 (where the original "moving right" text began),
+	the interval clears.
+	*/
+		
+	var multiplier=window.innerWidth/window.innerHeight;
+	var speedX=multiplier*speed;
+	maxRight -=speedX;
+	Moving.style.left=maxRight + 'px';
+	maxBottom -=speed;
+	Moving.style.top=maxBottom + 'px';}
+	if (maxRight <=0 && maxBottom <=0) clearInterval(moveID);
+}
+
+	/*Note: I did try to use the Pythagorean Theorem for the diagonal movement,
+	but couldn't figure it out. Tried using:
+	var a2=window.innerWidth*window.innerwidth;
+	var b2=window.innerHeight*window.innerHeight;
+	var c2=a2+b2;
+	var c=c2**.5;
+	var xSpeed=speed*window.innerWidth/c;
+	var ySpeed=speed*window.innerHeight/c;
+	maxRight -=speedX;
+	Moving.style.left=maxRight + 'px';
+	maxBottom -=speed;
+	Moving.style.top=maxBottom + 'px';}
+	if (maxRight <=0 && maxBottom <=0) clearInterval(moveID);}
+	
+	Feedback appreciated on how to get the text flush to 0,0 once it moves diagonally!
+	
+	*/
+
+function doMove(){
+ moveID=setInterval(moveText, 50);
+}
+</script>
+</head>
+<body  onload= "doMove()" >
+<div id="myDiv"style="position:absolute; font-size:18px;" > 
+moving right
+</div>
+</body>
+</html>
