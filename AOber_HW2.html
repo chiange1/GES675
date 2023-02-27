@@ -62,27 +62,15 @@ function moveDiag(){
 	maxRight -=speedX;
 	Moving.style.left=maxRight + 'px';
 	maxBottom -=speed;
-	Moving.style.top=maxBottom + 'px';}
-	if (maxRight <=0 && maxBottom <=0) clearInterval(moveID);
-}
+	Moving.style.top=maxBottom + 'px';
 
-	/*Note: I did try to use the Pythagorean Theorem for the diagonal movement,
-	but couldn't figure it out. Tried using:
-	var a2=window.innerWidth*window.innerwidth;
-	var b2=window.innerHeight*window.innerHeight;
-	var c2=a2+b2;
-	var c=c2**.5;
-	var xSpeed=speed*window.innerWidth/c;
-	var ySpeed=speed*window.innerHeight/c;
-	maxRight -=speedX;
-	Moving.style.left=maxRight + 'px';
-	maxBottom -=speed;
-	Moving.style.top=maxBottom + 'px';}
-	if (maxRight <=0 && maxBottom <=0) clearInterval(moveID);}
-	
-	Feedback appreciated on how to get the text flush to 0,0 once it moves diagonally!
-	
-	*/
+	if (maxRight<=0 && maxBottom<=0){
+	Moving.style.top=0;
+	Moving.style.left=0;
+	clearInterval(moveID);}
+}}
+
+
 
 function doMove(){
  moveID=setInterval(moveText, 50);
