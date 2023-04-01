@@ -189,25 +189,25 @@
 		weight: "bold"
 		}};
 
-// Create a graphic and add the geometry and symbol to it
+	// Create a graphic and add the geometry and symbol to it
 	let pointGraphic = new Graphic({
 		geometry: point,
 		symbol: markerSymbol,
 		});
 
-// Create a graphic and add the geometry and symbol to it
+	// Create a graphic and add the geometry and symbol to it
 	let textGraphic = new Graphic({
 		geometry: point,
 		symbol: textSymbol
 		});
 
-// Set basemap
+	// Set basemap
 	const map = new Map({
 		basemap: "hybrid",
 		});
 
 
-// Center the view over UMBC
+	// Center the view over UMBC
 	const view = new MapView({
 		container: "viewDiv",
 		map: map,
@@ -215,7 +215,7 @@
         zoom: 15
         });
 
-//Add all graphics to the view
+	//Add all graphics to the view
 	view.graphics.add(polylineOGraphic);
 	view.graphics.add(polylineIGraphic);
 	view.graphics.add(pointGraphic);
