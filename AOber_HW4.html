@@ -166,12 +166,12 @@
 		latitude: 39.255896
 		};
 
-	// Create a symbol (using a simple marker) for center of campus-use red and diamond/star shape
+	// Create a symbol (using a simple marker) for center of campus. Use a red star (find a picture)
 	let markerSymbol = {
-		type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
-		color: [255, 0, 0],
-		style: "diamond",
-		size: "20px"
+		type: "picture-marker",  // autocasts as new PictureMarkerSymbol(),
+		url: "https://cdn.pixabay.com/photo/2013/07/13/11/26/star-158137_960_720.png",
+		height: "25px",
+		width: "25px"
 		};
 
 	// Create a symbol (using a text symbol) to add label "UMBC Campus" above markerSymbol
