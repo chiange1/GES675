@@ -1,0 +1,229 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Angela Ober's Homework 4</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.26/"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <script>
+    require(["esri/config", "esri/Map", "esri/WebMap", "esri/views/MapView",
+    	"esri/Graphic"], 
+            function(esriConfig, Map, WebMap, MapView, Graphic) {
+        esriConfig.apiKey = "AAPK3225e3e282204cb8abd8c166bb704d08Obd3a3hT2yejzkFwWLN_2ZRaF8Q6FfgEowGICBi3QykvQ_6PMZTnYRdpRx4H-DJi";
+        
+
+	// Create geometry for Outer Loop
+	let polylineO = {
+  		type: "polyline",
+  		// Make a big ol' outer circle around Hilltop Circle)
+ 		paths: [ [-76.7153, 39.2535],
+		      [-76.714691, 39.252633],
+		      [-76.714602, 39.252423],
+		      [-76.714539, 39.252062],
+		      [-76.714631,39.251998],
+		      [-76.714701, 39.251923],
+		      [-76.714744, 39.251809],
+		      [-76.714725, 39.251691],
+		      [-76.714653, 39.251601],
+		      [-76.714546, 39.251541],
+		      [-76.714368, 39.251523],
+		      [-76.714237, 39.251547],
+		      [-76.714132, 39.251597],
+		      [-76.713980, 39.251618],
+		      [-76.713806, 39.251606],
+		      [-76.713580, 39.251576],
+		      [-76.713127, 39.251441],
+		      [-76.712727, 39.251363],
+		      [-76.712301, 39.251311],
+		      [-76.711885, 39.251294],
+		      [-76.711467, 39.251325],
+		      [-76.711062, 39.251410],
+		      [-76.710584, 39.251539],
+		      [-76.710169, 39.251682],
+		      [-76.709278, 39.252031],
+		      [-76.708514, 39.252409],
+		      [-76.706985, 39.253535],
+		      [-76.706024, 39.254563],
+		      [-76.705713, 39.255280],
+		      [-76.705618, 39.255659],
+		      [-76.705625, 39.255868],
+		      [-76.705660, 39.256061],
+		      [-76.705747, 39.256285],
+		      [-76.705899, 39.256534],
+		      [-76.706581, 39.257413],
+		      [-76.707518, 39.258347],
+		      [-76.708436, 39.259069],
+		      [-76.709039, 39.259372],
+		      [-76.709529, 39.259554],
+		      [-76.710170, 39.259712],
+		      [-76.710507, 39.259768],
+		      [-76.711031, 39.259789],
+		      [-76.711528, 39.259771],
+		      [-76.712002, 39.259712],
+		      [-76.712548, 39.259595],
+		      [-76.713083, 39.259424],
+		      [-76.713929, 39.258913],
+		      [-76.714175, 39.258722],
+		      [-76.716216, 39.256602],
+		      [-76.716539, 39.256241],
+		      [-76.716599, 39.256079],
+		      [-76.716664, 39.255859],
+		      [-76.716671, 39.255662],
+		      [-76.716649, 39.255450],
+		      [-76.716595, 39.255268],
+		      [-76.716448, 39.255007],
+		      [-76.716068, 39.254472],
+		      [-76.7153, 39.2535]
+ 		]};
+	
+	// Create a symbol for outer loop and make it blue
+	let polylineOSymbol = {
+	  	type: "simple-line",  
+	  	color: [0, 0, 255],
+	  	width: 4
+	  	};
+	
+	// Create the graphic for the outer loop and reference the polylineO geometry and polyOSymbol symbol
+	let polylineOGraphic = new Graphic({
+	  	geometry: polylineO,
+	  	symbol: polylineOSymbol
+	  	});
+
+	// Create geometry for the inner loop
+	let polylineI = {
+  		type: "polyline",
+  		// Make a big ol' inner circle around Hilltop Circle)
+ 		paths: [ [-76.714657, 39.252839],
+		      [-76.714504, 39.252570],
+		      [-76.714427, 39.252264],
+		      [-76.714338, 39.252056],
+		      [-76.714204, 39.252010],
+		      [-76.714079, 39.251893],
+		      [-76.714044, 39.251805],
+		      [-76.713917, 39.251728],
+		      [-76.713591, 39.251686],
+		      [-76.713266, 39.251599],
+		      [-76.712654, 39.251434],
+		      [-76.712226, 39.251380],
+		      [-76.711738, 39.251385],
+		      [-76.711135, 39.251478],
+		      [-76.708880, 39.252370],
+		      [-76.708533, 39.252580],
+		      [-76.706823, 39.253874],
+		      [-76.706166, 39.254618],
+		      [-76.705984, 39.254899],
+		      [-76.705805, 39.255319],
+		      [-76.705742, 39.255690],
+		      [-76.705761, 39.255966],
+		      [-76.705850, 39.256221],
+		      [-76.706906, 39.257532],
+		      [-76.708255, 39.258755],
+		      [-76.708660, 39.259024],
+		      [-76.709276, 39.259325],
+		      [-76.710178, 39.259580],
+		      [-76.710698, 39.259656],
+		      [-76.711406, 39.259666],
+		      [-76.711942, 39.259607],
+		      [-76.712625, 39.259454],
+		      [-76.713174, 39.259236],
+		      [-76.713831, 39.258866],
+		      [-76.714127, 39.258626],
+		      [-76.716271, 39.256364],
+		      [-76.716478, 39.256087],
+		      [-76.716555, 39.255700],
+		      [-76.716488, 39.255359],
+		      [-76.716389, 39.255161],
+		      [-76.714657, 39.252839]
+ 		]};
+	
+	// Create a symbol for the inner loop and make it green
+	let polylineISymbol = {
+	  	type: "simple-line",  
+	  	color: [170, 219, 30],
+	  	width: 4
+	  	};
+	
+	// Create the graphic for the inner loop referencing polylineI and polylineISymbol
+	let polylineIGraphic = new Graphic({
+	  	geometry: polylineI,
+	  	symbol: polylineISymbol
+		});
+
+	// Create geometry for the center of campus
+	let point = {
+		type: "point",  // autocasts as new Point()
+		longitude: -76.710910,
+		latitude: 39.255896
+		};
+
+	// Create a symbol (using a simple marker) for center of campus-use red and diamond/star shape
+	let markerSymbol = {
+		type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+		color: [255, 0, 0],
+		style: "diamond",
+		size: "20px"
+		};
+
+	// Create a symbol (using a text symbol) to add label "UMBC Campus" above markerSymbol
+	let textSymbol = {
+		type: "text",  // autocasts as new TextSymbol()
+		color: "white",
+		haloColor: "black",
+		haloSize: "1px",
+		text: "UMBC Campus",
+		xoffset: 0, //keep text centered
+		yoffset: 10, //offset text above red marker
+		font: {  // autocasts as new Font()
+		size: 12,
+		family: "Arial",
+		weight: "bold"
+		}};
+
+// Create a graphic and add the geometry and symbol to it
+	let pointGraphic = new Graphic({
+		geometry: point,
+		symbol: markerSymbol,
+		});
+
+// Create a graphic and add the geometry and symbol to it
+	let textGraphic = new Graphic({
+		geometry: point,
+		symbol: textSymbol
+		});
+
+// Set basemap
+	const map = new Map({
+		basemap: "hybrid",
+		});
+
+
+// Center the view over UMBC
+	const view = new MapView({
+		container: "viewDiv",
+		map: map,
+        center: [-76.7115, 39.2532],
+        zoom: 15
+        });
+
+//Add all graphics to the view
+	view.graphics.add(polylineOGraphic);
+	view.graphics.add(polylineIGraphic);
+	view.graphics.add(pointGraphic);
+	view.graphics.add(textGraphic);
+});
+    </script>
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
