@@ -122,20 +122,20 @@
         	});
         
 
-    	// Create geometry for the inner loop
+    	// Create geometry for the 50k
     	let polyline50k = {
       		type: "polyline",
       		// use layer50K
      		paths: [layer50K]};
     	
-    	// Create a symbol for the inner loop and make it green
+    	// Create a symbol for the 50k and make it teal
     	let polyline50kSymbol = {
     	  	type: "simple-line",  
     	  	color: "#ff36ff",
     	  	width: 4
     	  	};
     	
-    	// Create the graphic for the inner loop referencing polylineI and polylineISymbol
+    	// Create the graphic for the 50k referencing polyline50k and polyline50kSymbol
     	let highlightPatapsco = new Graphic({
     	  	geometry: polyline50k,
     	  	symbol: polyline50kSymbol
