@@ -1,0 +1,360 @@
+<html lang="en">
+  <head>
+  
+	<style type="text/css">
+      h1 {text-align:center}
+      h2 {font-size:22px; font-weight:bold; color:#006666}
+      h3 {font-size:18px; font-weight:bold; color:#009999}
+      p  {font-size:16px}
+      .outer {
+      border: 5px outset black;
+      	
+	</style>
+    	
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Angela's Final Project</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.26/"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 10;
+        margin: 0;
+        height: 98%;
+        width: 98%;
+      }
+    </style>
+
+    <script>
+    
+
+    var myview
+    
+    function showPatapsco50K(){
+        myview.center = [-76.742578, 39.236151];
+        myview.zoom=13;
+        myview.popup.open({            
+            title: "Patapsco 50K Route",
+            content: "This is the course for the Patapsco Valley State Park 50k, which consists of two ~16 mile loops"
+          });
+    }
+    
+    
+    //this is also what you can use instead of the function and div
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/layers/GeoJSONLayer",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/FeatureTable",
+        "esri/core/reactiveUtils",
+        "esri/widgets/BasemapGallery",
+        "esri/Graphic",
+        "esri/widgets/LayerList",
+        "esri/geometry/geometryEngine",
+        "esri/layers/GraphicsLayer",
+      ], (Map, MapView, GeoJSONLayer, FeatureLayer, FeatureTable, reactiveUtils, BasemapGallery, Graphic, LayerList, geometryEngine, GraphicsLayer) => {
+        let selectedFeature, id;
+        
+        const layerCounties = new GeoJSONLayer({
+    	    url: "Counties.geojson",
+    	    title: "Maryland Counties",
+    		  renderer: {
+    			  type: "simple",
+    			  symbol: {
+      			    type: "simple-fill",  
+      			    style: "none",
+      			    outline: {
+      			    	color: "black",
+      			    	style: "dash",
+      			    	width: "3px"}
+   		   }
+    		  }
+    	  });
+        
+        layerCounties.popupTemplate = {
+			  title: "MD County",
+			  content: "{geodesc}"
+		  }
+        
+        const layerParks = new GeoJSONLayer({
+    	    url: "MDParks.geojson",
+    	    title: "Maryland Parks",
+    		  renderer: {
+    			  type: "simple",  
+    			  symbol: {
+    			    type: "simple-fill",  
+    			    color: "#009999",
+      			    outline: {
+      			    	color: [0, 0, 0, .5],
+      			    	width: "1px"}
+    			  },
+   		   }
+    	  });
+        
+        layerParks.popupTemplate = {
+        		title: "Maryland State Parks",
+  			  content: "<table border='1'><tr><td>Name</td><td>{dnrname}</td></tr><br><tr><td>County</td><td>{county}</td></tr><tr><td>Region</td><td>{region}</td></tr><tr><td>Managed By</td><td>{managedby}</td></tr><tr><td>Acreage</td><td>{gisacres}</td></tr>"
+  		  }
+        
+        const layer50K = new GeoJSONLayer({
+    	    url: "50K_Map.geojson",
+    	    title: "Patapsco 50K Route",
+  		  renderer: {
+			  type: "simple",  
+			  symbol: {
+			    type: "simple-line",  
+			    color: "#20daa5",
+			    width: "3px",
+			    }
+			  },
+    		  popupTemplate:{
+    			  title: "Patapsco 50K Route",
+    			  content: "This is the course for the Patapsco Valley State Park 50k, which consists of two ~16 mile loops"
+    		  }
+        
+    	  });
+        
+        const highlightLayer = new GraphicsLayer({
+        	title:"Highlighted Features"
+        	});
+        
+
+    	// Create geometry for the inner loop
+    	let polyline50k = {
+      		type: "polyline",
+      		// use layer50K
+     		paths: [layer50K]};
+    	
+    	// Create a symbol for the inner loop and make it green
+    	let polyline50kSymbol = {
+    	  	type: "simple-line",  
+    	  	color: "#ff36ff",
+    	  	width: 4
+    	  	};
+    	
+    	// Create the graphic for the inner loop referencing polylineI and polylineISymbol
+    	let highlightPatapsco = new Graphic({
+    	  	geometry: polyline50k,
+    	  	symbol: polyline50kSymbol
+    		});
+        
+        
+        const map = new Map({
+    		basemap: "topo-vector",
+    		layers: [layerCounties, layerParks, layer50K]
+    		});
+
+        
+        const view = new MapView({
+          map: map,
+          container: "viewDiv",
+          //highlight magenta
+          highlightOptions: {
+        	  color: "#ff36ff",
+        	  opacity: ".4",
+          },
+          zoom: 8,
+          center: [-77.0364, 38.8951],
+          popup: {
+            dockEnabled: true,
+            dockOptions: {
+              buttonEnabled: false,
+              breakpoint: false
+            },
+          }
+     	
+        });
+        
+        myview=view
+        
+        // Add Basemap Gallery widget
+     	let basemapGallery = new BasemapGallery({
+        	  view: view,
+        	  container: "galleryView",
+       
+    	});
+        
+     	
+    	// Add widget to the top right corner of the view
+    	view.ui.add(basemapGallery, {
+        	  position: "top-right"
+    	});
+    	
+    	
+    	// Add Layer List
+    	let layerList = new LayerList({
+    		  view: view,
+    		});
+    		// Adds widget below other elements in the top left corner of the view
+    		view.ui.add(layerList, {
+    		  position: "bottom-left"
+    		});
+
+
+ view.when(function() {
+	    map.add(highlightLayer);
+	  });
+
+	  view.on("click", function(event) {
+	    const countyQuery = layerCounties.createQuery();
+	    countyQuery.geometry = event.mapPoint;
+	    layerCounties.queryFeatures(countyQuery).then(function(countyResults) {
+	      if (countyResults.features.length > 0) {
+	        const county = countyResults.features[0];
+
+	        // Highlight selected county
+	        const countySymbol = {
+	          type: "simple-fill",
+	          color: "#00ffff",
+	          outline: {
+	            color: "#4dffff",
+	            width: 1
+	          }
+	        };
+	        county.symbol = countySymbol;
+	        highlightLayer.removeAll();
+	        highlightLayer.add(county);
+
+	        // Query parks within the selected county
+	        const parksQuery = layerParks.createQuery();
+	        parksQuery.geometry = county.geometry;
+	        layerParks.queryFeatures(parksQuery).then(function(parksResults) {
+	          highlightLayer.removeAll();
+
+	          // Highlight parks within the selected county
+	          const parkSymbol = {
+	            type: "simple-fill",
+	            color: "#00ffff",
+	            outline: {
+	              color: "#4dffff",
+	              width: 1
+	            }
+	          };
+	          const parksGraphics = parksResults.features.map(function(feature) {
+	            return new Graphic({
+	              geometry: feature.geometry,
+	              symbol: parkSymbol
+	            });
+	          });
+	          highlightLayer.addMany(parksGraphics);
+	          
+	          //Create list of selected parks
+	          const parkListContainer = document.getElementById("parkListContainer");
+	          parkListContainer.innerHTML = ""; // Clear previous listing
+	          const parkList = document.createElement("ul");
+	          parkList.classList.add("park-list");
+	          parksResults.features.forEach(function(feature) {
+	            const parkName = feature.attributes.dnrname;
+	            const listItem = document.createElement("li");
+	            listItem.textContent = parkName;
+	            parkList.appendChild(listItem);
+	          });
+	          parkListContainer.appendChild(parkList);
+	          
+	        });
+	      }
+	    });
+	  });
+        
+        
+	  	//Query park polygons with acreage over 1,000
+	  	let query = layerParks.createQuery();
+        query.where = "gisacres > 1000";
+        layerParks.queryFeatures(query)
+        .then(function(response){
+           response.features.forEach((afeature) => {
+               afeature.symbol = {
+                    type: "simple-fill",  
+                	 color: [255, 255, 255, .5],
+                 	 outline: {  
+                   		width: 0.6,
+                   		color: [0, 0, 0, .2]
+                 }
+               };
+               view.graphics.add(afeature);
+           });
+
+         });
+
+  	
+    	
+        
+      })
+    </script>
+    
+    
+  </head>
+  <body>
+
+  <h1>GES 675 Final Project-Angela Ober</h1>
+  <center><a href="https://dnr.maryland.gov/Pages/default.aspx" target="_blank"><img src="https://alchetron.com/cdn/maryland-department-of-natural-resources-c0217202-41a3-4049-8d93-2bf21e5c573-resize-750.jpeg"
+  	style="width:30%" style="height:30%"
+  	></a>
+
+  <h2>About Maryland State Parks</h2>
+  The <a href="https://dnr.maryland.gov/Pages/default.aspx" target="_blank">Maryland Department of Natural Resources (DNR)</a> manageas over 446,000 acres of public lands and protected open space in Maryland.
+  DNR has 54 parks and manages other public lands. These lands, divided into four regions (Western, Central, Southern, and Eastern) contain mountains in the west,
+  the unique geology of the Piedmont, the Chesapeake Bay, and marshes and ocean on the eastern shore.
+  You can access the Maryland State Park's reservation system <a href="https://parkreservations.maryland.gov/" target="blank">here</a>.
+  
+  <h3>About Patapsco Valley State Park</h2>
+
+  <p><a href="https://dnr.maryland.gov/publiclands/Pages/central/patapsco.aspx" target="blank">Patapsco Valley State Park (PVSP)</a>
+  is the largest state park in Maryland.
+  It spans 32 miles of the Patapsco River, encompassing over 14,000 acres of land and crossing through four counties in Maryland.
+  The park was established on October 6, 1906. Patapsco Valley State Park holds a special place in my heart.
+  The <a href="https://dnr.maryland.gov/publiclands/Pages/central/PatapscoValley/Hollofield/Hollofield-Area.aspx" target="_blank">Hollofield Area</a>
+  at Patapsco Valley State Park is in Ellicott City, Maryland.
+  It the place where I celebrated my marriage.
+  The state park is also the place where I ran the Patapsco Valley 50K Ultramarathon. It's a place that I regularly hike in, and it never gets old.
+  </p> 
+  
+   <h2>About the Map</h2>
+  <p>Below, you will find a map that shows Maryland's Counties, DNR's Land data (including mainly state parks as well as other natural resource management areas, conservation easements), 
+  and the route for the Patapsco 50K which is held every fall in Patapsco State Park.
+  Any park that has been highlighed a lighter teal indicates that the acreage for that area is greater than 1,000 acres.
+  If you click on a county, it will highlight the different parks that exist within the county.</p>
+  <h3>How to Navigate the Map</h3></center>
+  <ul style="list-style-type:circle;">
+  <li>You can use the +/- buttons to zoom in and out and
+  click and drag your mouse to navigate to a new area of the map.</li>
+  <li>Click on the "Show Patapsco 50K" button to zoom to the Patapsco 50K route.</li>
+  <li>Click on the "Basemap On/Off" button to toggle the basemaps menu on and off.</li>
+  <li>Click on the layers list to turn layers on and off.</li>
+  </ul>
+
+
+
+<button onclick="showPatapsco50K()">Show Patapsco 50K</button>
+<button onclick="toggleBasemaps()" style="float:right">Basemap On/Off</button>
+<br>
+<br>
+<!-- Set basemap gallery to invisible on load -->
+  <div id="galleryView" style="display: none"></div>
+  <div class="outer"> 
+  	<div id="viewDiv"></div>
+  </div>
+  
+
+<br>
+<div id="parkListContainer"></div>
+<!-- Toggle On/Off Function for Basemap Gallery -->
+<script>
+function toggleBasemaps() {
+  var x = document.getElementById("galleryView");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+
+</script>
+
+
+</body>
+</html>
