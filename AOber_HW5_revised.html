@@ -1,0 +1,289 @@
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>Week 9</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.26/"></script>
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+    <script>
+    
+    var myview;
+    var highlightDC;
+    
+    function showDC(){
+        myview.center = [-77.013221893999969, 38.913610885000026];
+        myview.zoom=17;
+        myview.graphics.add(highlightDC)
+           myview.popup.open({            
+               title: "Washington",
+               content: "<table border='1'><tr><td>State</td><td>DC</td></tr><br><tr><td>Population in 2000</td><td>572059</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>Y</td></tr>",
+               location: [-77.013221893999969, 38.913610885000026]
+           });
+       }
+    
+    function showBmore(){
+        myview.center = [-76.617015941999966, 39.307956103000038];
+        myview.zoom=17;
+           myview.popup.open({            
+               title: "Baltimore",
+               content: "<table border='1'><tr><td>State</td><td>MD</td></tr><br><tr><td>Population in 2000</td><td>651154</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>N</td></tr>",
+               location: [-76.617015941999966, 39.307956103000038]
+             });
+       }
+    
+    function showNY(){
+        myview.center = [-73.917927105999979, 40.704233989000045];
+        myview.zoom=17;
+           myview.popup.open({            
+               title: "New York",
+               content: "<table border='1'><tr><td>State</td><td>NY</td></tr><br><tr><td>Population in 2000</td><td>8008278</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>N</td></tr>",
+               location: [-73.917927105999979, 40.704233989000045]
+             });
+       }
+    
+    function showDenver(){
+        myview.center = [-104.965485887999989, 39.726286941000069];
+        myview.zoom=17;
+           myview.popup.open({            
+               title: "Denver",
+               content: "<table border='1'><tr><td>State</td><td>CO</td></tr><br><tr><td>Population in 2000</td><td>554636</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>Y</td></tr>",
+               location: [-104.965485887999989, 39.726286941000069]
+             });
+       }
+    
+    function showLA(){
+        myview.center = [-118.375983992999977, 34.086159116000033];
+        myview.zoom=17;
+           myview.popup.open({            
+               title: "Los Angeles",
+               content: "<table border='1'><tr><td>State</td><td>CA</td></tr><br><tr><td>Population in 2000</td><td>3694820</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>N</td></tr>",
+               location: [-118.375983992999977, 34.086159116000033]
+             });
+       }
+    
+    function showSeattle(){
+        myview.center = [-122.333144092999987, 47.626352934000067];
+        myview.zoom=17;
+           myview.popup.open({            
+               title: "Seattle",
+               content: "<table border='1'><tr><td>State</td><td>WA</td></tr><br><tr><td>Population in 2000</td><td>563374</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>N</td></tr>",
+               location: [-122.333144092999987, 47.626352934000067]
+             });
+       }
+    
+    function showAsheville(){
+        myview.center = [-82.555810111999961, 35.579861937000032];
+        myview.zoom=17;
+           myview.popup.open({            
+               title: "Asheville",
+               content: "<table border='1'><tr><td>State</td><td>NC</td></tr><br><tr><td>Population in 2000</td><td>68889</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>N</td></tr>",
+               location: [-82.555810111999961, 35.579861937000032]
+             });
+       }
+    
+    function showBoston(){
+        myview.center = [-71.089114923999944, 42.321596881000062];
+        myview.zoom=17;
+           myview.popup.open({            
+               title: "Boston",
+               content: "<table border='1'><tr><td>State</td><td>MA</td></tr><br><tr><td>Population in 2000</td><td>589141</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>Y</td></tr>",
+               location: [-71.089114923999944, 42.321596881000062]
+             });
+       }
+    
+    function showRichmond(){
+        myview.center = [-77.461507124999969, 37.538345976000073];
+        myview.zoom=17;
+           myview.popup.open({            
+               title: "Richmond",
+               content: "<table border='1'><tr><td>State</td><td>VA</td></tr><br><tr><td>Population in 2000</td><td>197790</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>Y</td></tr>",
+               location: [-77.461507124999969, 37.538345976000073]
+             });
+       }
+    
+    function showPortland(){
+        myview.center = [-122.64015500499994, 45.523040004000052];
+        myview.zoom=17;
+           myview.popup.open({            
+               title: "Portland",
+               content: "<table border='1'><tr><td>State</td><td>OR</td></tr><br><tr><td>Population in 2000</td><td>529121</td></tr><tr><td>Class</td><td>city</td></tr><tr><td>Capital?</td><td>N</td></tr>",
+               location: [-122.64015500499994, 45.523040004000052]
+             });
+       }
+
+    let cities="Cities with population over one million:<br>";
+    
+    require(["esri/config", "esri/Map", "esri/views/MapView", "esri/layers/GeoJSONLayer", "esri/Graphic"], 
+            function(esriConfig, Map, MapView, GeoJSONLayer, Graphic) {
+        esriConfig.apiKey = "AAPK3225e3e282204cb8abd8c166bb704d08Obd3a3hT2yejzkFwWLN_2ZRaF8Q6FfgEowGICBi3QykvQ_6PMZTnYRdpRx4H-DJi";
+	
+
+    	// Create geometry for Outer Loop
+    	let pointDC = {
+      		type: "point",
+    		longitude: -77.013221893999969,
+    		latitude: 38.913610885000026
+    		};
+    	
+    	// Create a symbol for outer loop and make it blue
+    	let DCsymbol = {
+    	  	type: "simple-marker",  
+    	  	color: "green",
+    	  	size: "20px"
+    	  	};
+    	
+    	// Create the graphic for the outer loop and reference the polylineO geometry and polyOSymbol symbol
+    	let highlightDC = new Graphic({
+    	  	geometry: pointDC,
+    	  	symbol: DCsymbol
+    	  	});
+
+
+    const layer = new GeoJSONLayer({
+    	    url: "USCities.geojson",
+    		  popupTemplate:{
+    			  title: "{areaname}",
+    			  //Slide 13 Step 2: Add action to popuplayer
+    			  content: "<table border='1'><tr><td>State</td><td>{st}</td></tr><br><tr><td>Population in 2000</td><td>{pop2000}</td></tr><tr><td>Class</td><td>{class}</td></tr><tr><td>Capital?</td><td>{capital}</td></tr>"
+    		  }
+    	  });
+    
+
+
+    
+	// Set basemap
+	const map = new Map({
+		basemap: "hybrid",
+		layers: [layer]
+		});
+
+	// Center the view over UMBC
+	const view = new MapView({
+		container: "viewDiv",
+        highlightOptions: {
+      	  color: "green",
+      	  opacity: ".4",
+        },
+		map: map,
+        center: [-76.7115, 39.2532],
+        zoom: 8
+        });
+	
+	//Add myview=view after you define view
+	myview=view
+	
+
+
+
+	
+    });
+	
+    </script>
+  </head>
+  <body>
+
+<table border='1'>
+  <tr>
+    <th>Object ID</th>
+    <th>City</th>
+    <th>State</th>
+    <th>Population in 2000</th>
+    <th>Class</th>
+    <th>Capital?</th>
+  </tr>
+    <tr>
+    <td><a href='javascript:showLA();'>376</a></td>
+    <td>Los Angeles</td>
+    <td>CA</td>
+    <td>3694820</td>
+    <td>city</td>
+    <td>N</td>
+  </tr>
+      <tr>
+    <td><a href='javascript:showDenver();'>620</a></td>
+    <td>Denver</td>
+    <td>CO</td>
+    <td>554636</td>
+    <td>city</td>
+    <td>Y</td>
+  </tr>
+  <tr>
+    <td><a href='javascript:showDC();'>691</a></td>
+    <td>Washington</td>
+    <td>DC</td>
+    <td>572059</td>
+    <td>city</td>
+    <td>Y</td>
+  </tr>
+    <tr>
+    <td><a href='javascript:showBoston();'>1514</a></td>
+    <td>Boston</td>
+    <td>MA</td>
+    <td>589141</td>
+    <td>city</td>
+    <td>Y</td>
+  </tr>
+  <tr>
+    <td><a href='javascript:showBmore();'>1598</a></td>
+    <td>Baltimore</td>
+    <td>MD</td>
+    <td>651154</td>
+    <td>city</td>
+    <td>N</td>
+  </tr>
+      <tr>
+    <td><a href='javascript:showAsheville();'>2037</a></td>
+    <td>Asheville</td>
+    <td>NC</td>
+    <td>68889</td>
+    <td>city</td>
+    <td>N</td>
+  </tr>
+    <tr>
+    <td><a href='javascript:showNY();'>2456</a></td>
+    <td>New York</td>
+    <td>NY</td>
+    <td>8008278</td>
+    <td>city</td>
+    <td>N</td>
+  </tr>
+      <tr>
+    <td><a href='javascript:showPortland();'>2784</a></td>
+    <td>Portland</td>
+    <td>OR</td>
+    <td>529121</td>
+    <td>city</td>
+    <td>N</td>
+  </tr>
+      <tr>
+    <td><a href='javascript:showRichmond();'>3334</a></td>
+    <td>Richmond</td>
+    <td>VA</td>
+    <td>197790</td>
+    <td>city</td>
+    <td>Y</td>
+  </tr>
+      <tr>
+    <td><a href='javascript:showSeattle();'>3434</a></td>
+    <td>Seattle</td>
+    <td>WA</td>
+    <td>563374</td>
+    <td>city</td>
+    <td>N</td>
+  </tr>
+</table>
+
+
+    <div id="viewDiv"></div>
+  </body>
+</html>
